@@ -1,0 +1,15 @@
+{
+  "name": "daily_meme",
+  "version": "1.0.0",
+  "description": "Funny ai agent for every day key events meme generation",
+  "main": "index.js",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

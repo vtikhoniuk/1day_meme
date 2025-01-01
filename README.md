@@ -1,2 +1,2 @@
 # daily_meme
-Funny ai agent for every day key event meme generation
+Funny ai agent for every day key events meme generation

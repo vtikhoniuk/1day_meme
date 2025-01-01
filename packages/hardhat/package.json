@@ -9,15 +9,15 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "dependencies": {
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "ethers": "^6.13.4"
+  },
   "devDependencies": {
     "@types/lru-cache": "^7.10.9",
     "hardhat": "^2.22.17",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
-  },
-  "dependencies": {
-    "@nomicfoundation/hardhat-ethers": "^3.0.8",
-    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
-    "ethers": "^6.13.4"
   }
 }

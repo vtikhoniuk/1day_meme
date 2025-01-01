@@ -11,24 +11,19 @@ contract AidleToken is ERC1155, Ownable, ERC1155Supply {
     uint256 public maxIdTotalSupply = 10;
     uint256 public mintPrice = 0;
     uint256 private _protocolStartTimestamp;
-    address private _minter;
 
     error ProtocolAlreadyStarted();
     error StartTimestampShouldBeInFuture();
-    error MinterUnauthorizedAccount(address account);
     error MaxIdTotalSupplyExceeded();
     error TokenIdNotMatchingDate();
 
     event MaxIdTotalSupplyChanged(uint256 indexed previousValue, uint256 indexed newValue);
     event MintPriceChanged(uint256 indexed previousValue, uint256 indexed newValue);
-    event MintershipTransferred(address indexed previousMinter, address indexed newMinter);
 
     constructor(address initialOwner)
         ERC1155("http://localhost/")
         Ownable(initialOwner)
-    {
-        transferMintership(initialOwner);
-    }
+    {}
 
     function setURI(string memory newuri) public onlyOwner {
         _setURI(newuri);
@@ -56,31 +51,15 @@ contract AidleToken is ERC1155, Ownable, ERC1155Supply {
         _protocolStartTimestamp = startTimestamp;
     }
 
-    modifier onlyMinter() {
-        if (_msgSender() != _minter) {
-            revert MinterUnauthorizedAccount(_msgSender());
-        }
-        _;
-    }
-
-    function transferMintership(address newMinter) public virtual onlyOwner {
-        address oldMinter = _minter;
-        _minter = newMinter;
-        emit MintershipTransferred(oldMinter, newMinter);
-    }
-
-    function mint(address account, uint256 id, uint256 amount, bytes memory data)
-        public
-        onlyMinter
-    {
-        if (totalSupply(id) + amount > maxIdTotalSupply) {
+    function claim() public {
+        address account = _msgSender();
+        uint256 id = block.timestamp / 1 days - _protocolStartTimestamp / 1 days;
+        bytes memory data = '0x0';
+        if (totalSupply(id) >= maxIdTotalSupply) {
             revert MaxIdTotalSupplyExceeded();
         }
-        if (block.timestamp / 1 days - _protocolStartTimestamp / 1 days != id) {
-            revert TokenIdNotMatchingDate();
-        }
-        safeTransferFrom(account, address(this), id, amount * mintPrice, data);
-        _mint(account, id, amount, data);
+        safeTransferFrom(account, address(this), id, mintPrice, data);
+        _mint(account, id, 1, data);
     }
 
     // The following functions are overrides required by Solidity

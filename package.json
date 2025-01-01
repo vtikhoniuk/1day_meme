@@ -7,7 +7,9 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "node": "cd packages/hardhat && npx hardhat node",
+    "deploy": "cd packages/hardhat && npx hardhat ignition deploy ignition/modules/AidleTokenModule.ts --network localhost"
   },
   "keywords": [],
   "author": "",
